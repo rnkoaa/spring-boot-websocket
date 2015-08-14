@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html ng-app="helloMessageApp">
+<head>
+    <title>Hello WebSocket</title>
+    <script src="libs/sockjs-0.3.4.js"></script>
+    <script src="libs/stomp.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.3/angular.min.js"></script>
+    <script src="app/helloMessageApp.js"></script>
+</head>
+<body>
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+    enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
+<div ng-controller="messageCtrl">
+    <form novalidate="novalidate">
+        <div>
+            <button id="connect">Connect</button>
+            <button id="disconnect">Disconnect</button>
+        </div>
+        <div id="conversationDiv">
+            <label for="name">What is your name?</label>
+            <input type="text" id="name"
+                   ng-model="user.name"/>
+            <button id="sendName" ng-click="update(user)">Send</button>
+            <p id="response"></p>
+        </div>
+    </form>
+    <div ng-repeat="message in messages track by $index">
+        <p>{{message}}</p>
+    </div>
+</div>
+</body>
+</html>
