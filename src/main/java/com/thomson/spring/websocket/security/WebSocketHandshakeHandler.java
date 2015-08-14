@@ -1,0 +1,31 @@
+package com.thomson.spring.websocket.security;
+
+import com.sun.security.auth.UserPrincipal;
+import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.stereotype.Component;
+import org.springframework.web.socket.WebSocketHandler;
+import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
+
+import java.security.Principal;
+import java.util.Map;
+import java.util.UUID;
+
+/**
+ * Enables {@link org.springframework.messaging.simp.annotation.SendToUser} annotation to send
+ * direct messages to * anonymous users. Overrides {@link DefaultHandshakeHandler#determineUser} and
+ * for anonymous users creates {@link Principal} with name initialized with unique {@link UUID}.
+ */
+//@Component
+public class WebSocketHandshakeHandler extends DefaultHandshakeHandler {
+
+    @Override
+    protected Principal determineUser(final ServerHttpRequest request,
+                                      final WebSocketHandler wsHandler,
+                                      final Map<String, Object> attributes) {
+        Principal principal = super.determineUser(request, wsHandler, attributes);
+
+        Principal randomPrincipal = new UserPrincipal(UUID.randomUUID().toString());
+        System.out.println("Random Principal: " + randomPrincipal.getName());
+        return principal != null ? principal : randomPrincipal;
+    }
+}

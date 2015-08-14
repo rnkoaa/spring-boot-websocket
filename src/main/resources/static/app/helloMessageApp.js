@@ -15,10 +15,11 @@ angular.module("helloMessageApp.controllers", []).controller("messageCtrl", func
 
     $scope.update = function (user) {
         console.log(user);
+        console.log("Send Request.");
         messageService.sendName(user.name);
     };
 
-    messageService.receive().then(null, null, function(message) {
+    messageService.receive().then(null, null, function (message) {
         $scope.messages.push(message);
     });
 });
@@ -55,7 +56,8 @@ angular.module("helloMessageApp.services", []).service("messageService", functio
             console.log('Connected: ' + frame);
             stompClient.subscribe('/user/topic/greetings', function (greeting) {
                 //this.messages.push(JSON.parse(greeting.body).content);
-                listener.notify(JSON.parse(greeting.body).content);
+                //listener.notify(JSON.parse(greeting.body).content);
+                listener.notify(greeting.body);
             });
         });
     };
