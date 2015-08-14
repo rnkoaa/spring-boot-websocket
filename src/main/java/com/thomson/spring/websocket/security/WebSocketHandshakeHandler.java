@@ -2,7 +2,6 @@ package com.thomson.spring.websocket.security;
 
 import com.sun.security.auth.UserPrincipal;
 import org.springframework.http.server.ServerHttpRequest;
-import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
@@ -15,7 +14,6 @@ import java.util.UUID;
  * direct messages to * anonymous users. Overrides {@link DefaultHandshakeHandler#determineUser} and
  * for anonymous users creates {@link Principal} with name initialized with unique {@link UUID}.
  */
-//@Component
 public class WebSocketHandshakeHandler extends DefaultHandshakeHandler {
 
     @Override
