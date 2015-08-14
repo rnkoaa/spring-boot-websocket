@@ -13,6 +13,9 @@ import java.util.UUID;
  * Enables {@link org.springframework.messaging.simp.annotation.SendToUser} annotation to send
  * direct messages to * anonymous users. Overrides {@link DefaultHandshakeHandler#determineUser} and
  * for anonymous users creates {@link Principal} with name initialized with unique {@link UUID}.
+ *
+ * With Help From: <a href="http://sergialmar.com">www.sergialmar.com/</a> and
+ * <a href="">https://github.com/igor-baiborodine/ModernWeb072714.git</a>
  */
 public class WebSocketHandshakeHandler extends DefaultHandshakeHandler {
 

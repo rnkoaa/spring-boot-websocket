@@ -16,7 +16,6 @@ public class GreetingController {
     private SimpMessagingTemplate template;
 
 	@MessageMapping("/hello")
-  //  @SendToUser("/topic/greetings")
 	public void greeting(HelloMessage helloMessage, Principal principal) throws InterruptedException {
         Thread.sleep(300); //simulated delay
         for (int i = 0; i < 10; i++) {
