@@ -14,12 +14,13 @@ angular.module("helloMessageApp.controllers", []).controller("messageCtrl", func
     messageService.connect();
 
     $scope.update = function (user) {
-        console.log(user);
-        console.log("Send Request.");
         messageService.sendName(user.name);
     };
 
     messageService.receive().then(null, null, function (message) {
+        if (message.indexOf("migrationComplete") > -1) {
+            console.log(messageService.isConnected());
+        }
         $scope.messages.push(message);
     });
 });
@@ -39,8 +40,8 @@ angular.module("helloMessageApp.directives", []).
 
 angular.module("helloMessageApp.services", []).service("messageService", function ($q, $timeout) {
     var self = this;
-    var messages = [];
     var listener = $q.defer();
+    var connected = false;
 
     self.stompClient = {};
 
@@ -50,16 +51,18 @@ angular.module("helloMessageApp.services", []).service("messageService", functio
     }, messageIds = [];
 
     service.connect = function () {
-        var socket = new SockJS('/hello');
-        stompClient = Stomp.over(socket);
-        stompClient.connect({}, function (frame) {
-            console.log('Connected: ' + frame);
-            stompClient.subscribe('/user/topic/greetings', function (greeting) {
-                //this.messages.push(JSON.parse(greeting.body).content);
-                //listener.notify(JSON.parse(greeting.body).content);
-                listener.notify(greeting.body);
+        if (!connected) {
+            var socket = new SockJS('/hello');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                console.log('Connected: ' + frame);
+                connected = true;
+                stompClient.subscribe('/user/topic/greetings', function (greeting) {
+                    //listener.notify(JSON.parse(greeting.body).content);
+                    listener.notify(greeting.body);
+                });
             });
-        });
+        }
     };
 
     service.receive = function () {
@@ -69,13 +72,17 @@ angular.module("helloMessageApp.services", []).service("messageService", functio
     service.disconnect = function () {
         if (stompClient != null) {
             stompClient.disconnect();
+            connected = false;
         }
         //setConnected(false);
         console.log("Disconnected");
     };
 
+    service.isConnected = function () {
+        return connected;
+    };
+
     service.sendName = function (name) {
-        // var name = document.getElementById('name').value;
         stompClient.send("/app/hello", {}, JSON.stringify({'name': name}));
     };
     return service;

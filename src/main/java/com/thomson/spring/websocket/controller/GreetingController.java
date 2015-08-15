@@ -15,12 +15,14 @@ public class GreetingController {
     @Autowired
     private SimpMessagingTemplate template;
 
-	@MessageMapping("/hello")
-	public void greeting(HelloMessage helloMessage, Principal principal) throws InterruptedException {
+    @MessageMapping("/hello")
+    public void greeting(HelloMessage helloMessage, Principal principal) throws InterruptedException {
         Thread.sleep(300); //simulated delay
         for (int i = 0; i < 10; i++) {
             template.convertAndSendToUser(principal.getName(), "/topic/greetings", "Hello, " + helloMessage.getName() + ": " + ++i + " !");
             Thread.sleep(500);
         }
-	}
+
+        template.convertAndSendToUser(principal.getName(), "/topic/greetings", "migrationComplete");
+    }
 }
