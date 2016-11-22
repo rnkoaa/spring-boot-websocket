@@ -25,7 +25,9 @@ public class GreetingController {
       /*  Thread.sleep(300); //simulated delay*/
       TimeUnit.MILLISECONDS.sleep(300);
         for (int i = 0; i < 25; i++) {
-            template.convertAndSendToUser(principal.getName(), "/topic/greetings", "Hello, " + helloMessage.getName() + ": " + ++i + " !");
+            template
+              .convertAndSendToUser(principal.getName(), "/topic/greetings", "Hello, "
+                + helloMessage.getName() + ": " + ++i + " !");
           TimeUnit.MILLISECONDS.sleep(500);
         }
 

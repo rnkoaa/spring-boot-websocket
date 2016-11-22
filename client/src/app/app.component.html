@@ -1,0 +1,57 @@
+<app-nav-bar></app-nav-bar>
+
+<!--Counter Value is: {{counter}}<button type="button" (click)="send($event)">Subscribe to WebSocket</button>-->
+
+<div class="container body-wrapper">
+  <div class="row">
+    <div class="col-md-5">
+      <!-- PAGE TITLE -->
+      <div class="page-header">
+        <h3><span class="glyphicon glyphicon-tower"></span>&nbsp; &nbsp;Items Viewer Count</h3>
+      </div>
+      <!-- SHOW ERROR/SUCCESS MESSAGES -->
+      <div id="messages"></div>
+
+      <div class="well bs-component">
+        <!-- FORM -->
+        <form name="requestItems" [formGroup]="requestItems" (ngSubmit)="onRequestItemSubmitted($event)" novalidate="">
+
+       <div class="row">
+            <div class="col-md-12">
+              <div id="judicial-uuid" class="form-group">
+                <label>Judicial Artifact UUID</label>
+                <textarea name="judicialUuids" formControlName="judicialArtifacts"
+                          class="form-control" placeholder="Enter each judicial id on a separate line" rows="10"
+                          cols="50"
+                          required="">
+                        </textarea>
+                <span *ngIf="requestItems.controls.artifacts.touched
+                && requestItems.controls.artifacts.hasError('required')"
+                      class="help-block alert alert-danger">At least one Judicial Artifact Uuid is required</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-8">
+              <!-- SUBMIT BUTTON -->
+              <button type="submit" class="btn btn-primary btn-lg btn-block"  [disabled]="!requestItems.valid">
+                <span class="glyphicon glyphicon-flash"></span> Migrate!
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+
+    </div>
+    <div class="col-md-7">
+
+     <!-- <app-results [statusMessage]="statusMessage"></app-results>-->
+
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
