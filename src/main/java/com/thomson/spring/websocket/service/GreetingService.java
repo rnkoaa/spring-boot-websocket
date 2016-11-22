@@ -18,7 +18,7 @@ public class GreetingService {
     }
 
     public void sendMessageLoop(HelloMessage helloMessage) {
-        for (int index = 0; index < 10; index++) {
+        for (int index = 0; index < 25; index++) {
             String text = "[" + index + "]:" + helloMessage.getName();
             this.template.convertAndSend("/user/topic/greetings", text);
         }

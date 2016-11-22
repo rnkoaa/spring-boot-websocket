@@ -8,19 +8,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 @RequestMapping("/")
 public class GreetingController {
+    private final SimpMessagingTemplate template;
+
     @Autowired
-    private SimpMessagingTemplate template;
+    public GreetingController(SimpMessagingTemplate template) {
+        this.template = template;
+    }
 
     @MessageMapping("/hello")
     public void greeting(HelloMessage helloMessage, Principal principal) throws InterruptedException {
-        Thread.sleep(300); //simulated delay
-        for (int i = 0; i < 10; i++) {
+      /*  Thread.sleep(300); //simulated delay*/
+      TimeUnit.MILLISECONDS.sleep(300);
+        for (int i = 0; i < 25; i++) {
             template.convertAndSendToUser(principal.getName(), "/topic/greetings", "Hello, " + helloMessage.getName() + ": " + ++i + " !");
-            Thread.sleep(500);
+          TimeUnit.MILLISECONDS.sleep(500);
         }
 
         template.convertAndSendToUser(principal.getName(), "/topic/greetings", "migrationComplete");

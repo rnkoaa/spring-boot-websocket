@@ -3,7 +3,7 @@ buildscript{
 		mavenCentral()
 	}
 	dependencies{
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE")
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE")
 	}
 }
 
@@ -24,11 +24,15 @@ repositories{
 }
 
 dependencies{
-	compile("org.springframework.boot:spring-boot-starter-websocket")
-	compile("org.springframework:spring-messaging")
-	testCompile("junit:junit")
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-websocket')
+	runtime('org.springframework.boot:spring-boot-devtools')
+	compileOnly('org.projectlombok:lombok')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 task wrapper(type: Wrapper){
-	gradleVersion = '2.3'
+	gradleVersion = '3.2'
 }
