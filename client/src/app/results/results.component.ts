@@ -1,23 +1,32 @@
-import {Component, OnInit, Input} from "@angular/core";
+import {Component, OnInit, OnDestroy, Input} from "@angular/core";
+import {RequestStartedService} from "../shared/request-started.service";
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'app-results',
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.css']
 })
-export class ResultsComponent implements OnInit {
+export class ResultsComponent implements OnInit, OnDestroy {
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
-  @Input() statusMessage: string;
+  subscription: Subscription;
+  @Input() mRequestItem: any;
 
-  constructor() {
+  constructor(private _requestStartedSvc: RequestStartedService) {
   }
 
   ngOnInit() {
-  }
-
-  migrationRequestStarted(event) {
-    /*this.statusMessage = "Migration Request started.";
-     console.log(event);*/
+    this.subscription = this._requestStartedSvc
+      .requestStartedChanges$
+      .subscribe((mRequestItem: any) => {
+        console.log("Received Message. %s", JSON.stringify(mRequestItem));
+        if (mRequestItem) {
+          console.log(`Result => ${JSON.stringify(mRequestItem)}`);
+        }
+      });
   }
 
 }

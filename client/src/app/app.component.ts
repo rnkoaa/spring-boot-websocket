@@ -1,9 +1,8 @@
-import {Component, OnInit, Output, EventEmitter, Input} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {FormGroup, FormBuilder} from "@angular/forms";
 import * as SockJS from "sockjs-client";
-import {NavBarComponent} from "./nav-bar/nav-bar.component";
-import {FooterComponent} from "./footer/footer.component";
-//import * as Stomp from 'stompjs';
+import {RequestStartedService} from "./shared/request-started.service";
+
 const Stomp = require('stompjs/lib/stomp').Stomp;
 
 @Component({
@@ -12,6 +11,7 @@ const Stomp = require('stompjs/lib/stomp').Stomp;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+
   private host = 'http://localhost:8012';
   //private url = `${this.host}/migrations`;
   private url = `/hello`;
@@ -25,29 +25,27 @@ export class AppComponent implements OnInit {
    }
    */
 
-  // @Output() migrationRequestStarted = new EventEmitter();
-  requestItems: FormGroup;
-  requestStarted: boolean;
+  mRequest: FormGroup;
+  mRequestItem: any;
+  public requestStarted: boolean = false;
 
-
-  constructor(private _formBuilder: FormBuilder) {
+  constructor(private _formBuilder: FormBuilder, private _requestStartedSvc: RequestStartedService) {
   }
-
-  @Output() onRequestStarted = new EventEmitter();
 
   ngOnInit() {
 
-    this.requestItems = this._formBuilder.group({
+    this.mRequest = this._formBuilder.group({
       artifacts: [null, []]
     });
+
   }
 
-  onRequestItemSubmitted(event) {
+  onRequestSubmitted(event) {
 
     this.requestStarted = true;
-    console.log(this.requestItems.value);
-    // this.migrationRequestStarted.emit("Request Started");
-    //event.preventDefault();
+    this.mRequestItem = this.mRequest.value;
+    console.log(this.mRequestItem);
+    this._requestStartedSvc.tellRequest(this.mRequestItem);
   }
 
   connect() {

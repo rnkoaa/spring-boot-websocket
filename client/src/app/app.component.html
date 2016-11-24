@@ -14,19 +14,19 @@
 
       <div class="well bs-component">
         <!-- FORM -->
-        <form name="requestItems" [formGroup]="requestItems" (ngSubmit)="onRequestItemSubmitted($event)" novalidate="">
+        <form name="mRequest" [formGroup]="mRequest" (ngSubmit)="onRequestSubmitted($event)" novalidate="">
 
        <div class="row">
             <div class="col-md-12">
               <div id="judicial-uuid" class="form-group">
                 <label>Judicial Artifact UUID</label>
-                <textarea name="judicialUuids" formControlName="judicialArtifacts"
+                <textarea name="judicialUuids" formControlName="artifacts"
                           class="form-control" placeholder="Enter each judicial id on a separate line" rows="10"
                           cols="50"
                           required="">
                         </textarea>
-                <span *ngIf="requestItems.controls.artifacts.touched
-                && requestItems.controls.artifacts.hasError('required')"
+                <span *ngIf="mRequest.controls.artifacts.touched
+                && mRequest.controls.artifacts.hasError('required')"
                       class="help-block alert alert-danger">At least one Judicial Artifact Uuid is required</span>
               </div>
             </div>
@@ -36,7 +36,7 @@
           <div class="row">
             <div class="col-md-8">
               <!-- SUBMIT BUTTON -->
-              <button type="submit" class="btn btn-primary btn-lg btn-block"  [disabled]="!requestItems.valid">
+              <button type="submit" class="btn btn-primary btn-lg btn-block"  [disabled]="!mRequest.valid">
                 <span class="glyphicon glyphicon-flash"></span> Migrate!
               </button>
             </div>
@@ -48,7 +48,7 @@
     </div>
     <div class="col-md-7">
 
-     <!-- <app-results [statusMessage]="statusMessage"></app-results>-->
+      <app-results [mRequestItem]="mRequestItem"></app-results>
 
     </div>
   </div>

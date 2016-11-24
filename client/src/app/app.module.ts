@@ -8,6 +8,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { FooterComponent } from './footer/footer.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ResultsComponent } from './results/results.component';
+import {RequestStartedService} from "./shared/request-started.service";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { ResultsComponent } from './results/results.component';
     ReactiveFormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [RequestStartedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
