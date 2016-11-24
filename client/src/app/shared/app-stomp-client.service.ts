@@ -32,8 +32,6 @@ export class AppStompClient {
   subscribe(subscriberUrl: string, subscriber: Subject<any>) {
     if (this.connected) {
       this.stompClient.subscribe(subscriberUrl, (response) => {
-        console.log("Received Message");
-        console.log(response.body);
         subscriber.next(response.body)
       });
     } else {
@@ -52,6 +50,8 @@ export class AppStompClient {
   disconnect() {
     if (this.connected || this.stompClient != null) {
       this.stompClient.disconnect();
+      this.connected = false;
+      this.stompClient = null;
     }
   }
 }

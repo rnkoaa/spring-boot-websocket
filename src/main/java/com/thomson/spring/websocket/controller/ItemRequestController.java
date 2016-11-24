@@ -31,17 +31,25 @@ public class ItemRequestController {
     String artifactId = itemRequest.getArtifacts().get(0);
 
     //simulate transmitting a message for 60 seconds.
-    for (int index = 0; index < 60; index++) {
+    for (int index = 0; index < 30; index++) {
       TimeUnit.SECONDS.sleep(1);
       ItemResponseMessage message =
         new ItemResponseMessage(LocalDateTime.now(),
           artifactId,
-          "Processing this Artifact: " + artifactId);
+          "Processing this Artifact: " + artifactId,
+          false);
       logger.info("Sending Message: {}", message.getMessage());
       template
         .convertAndSendToUser(principal.getName(), "/topic/item-requests", message);
     }
-    template.convertAndSendToUser(principal.getName(), "/topic/item-requests", "Completed.");
+
+    ItemResponseMessage completedMessage =
+      new ItemResponseMessage(LocalDateTime.now(),
+        artifactId,
+        "Completed Processing this Artifact: " + artifactId,
+        true);
+    template.convertAndSendToUser(principal.getName(),
+      "/topic/item-requests", completedMessage);
 
   }
 }

@@ -10,14 +10,16 @@ public class ItemResponseMessage {
   private LocalDateTime timestamp;
   private String message;
   private String artifact;
+  private boolean processingStatus;
 
   public ItemResponseMessage() {
   }
 
-  public ItemResponseMessage(LocalDateTime timestamp, String artifact, String message) {
+  public ItemResponseMessage(LocalDateTime timestamp, String artifact, String message, boolean processingStatus) {
     this.timestamp = timestamp;
     this.message = message;
     this.artifact = artifact;
+    this.processingStatus = processingStatus;
   }
 
   public LocalDateTime getTimestamp() {
@@ -42,5 +44,13 @@ public class ItemResponseMessage {
 
   public void setArtifact(String artifact) {
     this.artifact = artifact;
+  }
+
+  public boolean isProcessingStatus() {
+    return processingStatus;
+  }
+
+  public void setProcessingStatus(boolean processingStatus) {
+    this.processingStatus = processingStatus;
   }
 }

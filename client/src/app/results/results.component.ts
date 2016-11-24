@@ -10,6 +10,8 @@ import {ItemsRequestService} from "./items.request.service";
   styleUrls: ['./results.component.css']
 })
 export class ResultsComponent implements OnInit, OnDestroy {
+  statusMessages: Array<any> = [];
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.itemResponseSubscription.unsubscribe();
@@ -27,18 +29,27 @@ export class ResultsComponent implements OnInit, OnDestroy {
     this.itemResponseSubscription = this._itemRequestService
       .responseObservable
       .subscribe(response => {
-        console.log(`Received response from server: ${response}`);
+        let message = JSON.parse(response);
+        if(message.processingStatus){
+          console.log("Processing is completed.");
+
+          //disconnect for this websocket connection.
+          this._itemRequestService.disconnect();
+        }
+        this.statusMessages.push(message);
       });
 
     this.subscription = this._requestStartedSvc
       .requestStartedChanges$
       .subscribe((mRequestItem: any) => {
-        console.log("Received Message. %s", JSON.stringify(mRequestItem));
         if (mRequestItem) {
           console.log(`Result => ${JSON.stringify(mRequestItem)}`);
           let mRequest = {
             artifacts: [mRequestItem.artifacts]
           };
+
+          //reset status messages.
+          this.statusMessages = [];
 
           this._itemRequestService.send(mRequest);
         }

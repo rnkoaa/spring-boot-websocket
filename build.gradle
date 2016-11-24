@@ -1,4 +1,7 @@
 buildscript{
+  ext{
+    jacksonVersion="2.6.3"
+  }
 	repositories{
 		mavenCentral()
 	}
@@ -28,6 +31,12 @@ dependencies{
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-websocket')
+  
+  compile "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
+  compile "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+  compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+  compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}")
+  
 	runtime('org.springframework.boot:spring-boot-devtools')
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
