@@ -27,3 +27,5 @@ code into the `src/main/resources/static/app` directory.
 
 Then go back to the previous tab, serve the Java application using spring boot with the command
 `./gradlew bootRun`
+
+You can visit and use the application at `http://localhost:8012` or via [localhost](http://localhost:8012)
